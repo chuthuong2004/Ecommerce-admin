@@ -1,0 +1,28 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  .search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .search-input {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 10px 20px 10px 45px;
+  }
+  .loading-icon {
+    right: 15px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+}

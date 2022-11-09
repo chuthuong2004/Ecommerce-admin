@@ -1,0 +1,33 @@
+.tab-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #f7f8f9;
+}
+
+.tab-header .nav-tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.tab-header .nav-tabs .nav-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 43px 24px;
+  letter-spacing: 2px;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 4px solid transparent;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.tab-header .nav-tabs .nav-item.active {
+  border-color: var(--primary);
+}
+/*# sourceMappingURL=TabContent.module.css.map */

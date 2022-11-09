@@ -1,0 +1,66 @@
+.container {
+  background-color: #f5f4fe;
+  .logo {
+    background-color: #f5f4fe;
+    height: var(--height-header);
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    font-size: 40px;
+    font-family: 'Playfair Display', serif;
+    color: var(--bs-primary);
+    font-weight: 700;
+    letter-spacing: 0.4rem;
+  }
+  .menu {
+    padding: 24px;
+    &__account {
+      cursor: pointer;
+      padding: 15px;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      background-color: var(--bs-white);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      &__img {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+      }
+      &__info {
+        h3 {
+          color: var(--bs-primary);
+        }
+      }
+    }
+    &__links {
+      &--item {
+        border-radius: 80px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        padding: 15px 20px;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        transition: all 0.5s ease-in-out;
+        &.active {
+          border-left-color: var(--bs-primary);
+          border-right-color: var(--bs-primary);
+          color: var(--bs-primary);
+          background-color: rgba(255, 110, 64, 0.15);
+          font-weight: 500;
+        }
+        &:hover {
+          color: var(--bs-primary);
+          font-weight: 500;
+        }
+      }
+      &--icon {
+        color: var(--bs-primary) !important;
+      }
+    }
+  }
+}

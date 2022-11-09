@@ -1,0 +1,202 @@
+.input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: 14px;
+  letter-spacing: 1px;
+  line-height: 20px;
+  margin-top: 16px;
+}
+
+.input-container .input-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  line-height: 14.5px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.input-container .input {
+  position: relative;
+}
+
+.input-container .input input {
+  width: 100%;
+  border: 1px solid #868d95;
+  border-radius: 2px;
+  background-color: #ffffff;
+  font-size: 14px;
+  line-height: 14px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  padding: 15px;
+  letter-spacing: 2px;
+}
+
+.input-container .input input:placeholder-shown {
+  text-transform: capitalize;
+}
+
+.input-container .input input:focus {
+  -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.input-container .input .icon-eye {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.input-container .input .icon-eye.disabled {
+  cursor: text;
+  opacity: 0.4;
+}
+
+.input-container .input .message-error {
+  position: absolute;
+  font-size: 12px;
+  color: #e24c4c;
+  right: 0;
+  bottom: -20px;
+}
+
+.input-container .input .message-error.error + input {
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  border-color: #e24c4c;
+  -webkit-box-shadow: 0px 0px 4px 0px #e24c4c;
+          box-shadow: 0px 0px 4px 0px #e24c4c;
+}
+
+.checkbox input {
+  color: red;
+  font-size: 20px;
+}
+
+.checkbox input[type='checkbox']:checked {
+  background-color: red;
+  color: red;
+}
+
+.checkbox label {
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.checkbox input[type='checkbox']::before {
+  /* ...existing styles */
+  /* Windows High Contrast Mode */
+  background-color: CanvasText;
+}
+
+.checkbox {
+  margin-top: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.checkbox label {
+  font-family: Helvetica;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+@-webkit-keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+  }
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox input + label span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px -4px 0;
+  margin-right: 10px;
+}
+
+.checkbox input + label span:before, .checkbox input + label span:after {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  content: '';
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  background: transparent;
+  border: 2px solid var(--primary);
+}
+
+.checkbox input + label span:after {
+  z-index: 0;
+  border: none;
+}
+
+.checkbox input:checked + label span:before {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-animation: pop 0.3s ease;
+          animation: pop 0.3s ease;
+  z-index: 100;
+  background: var(--primary);
+}
+/*# sourceMappingURL=Input.module.css.map */

@@ -1,0 +1,33 @@
+:root {
+  --right-width: 7rem;
+  --top-width: 3rem;
+  --width-content-modal: 56rem;
+  --top-height-modal: 8rem;
+}
+.modal,
+.overlay {
+  width: 100vw;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 101;
+  transition: all 0.6s ease-in-out;
+  background-color: rgba(49, 49, 49, 0.5);
+}
+.modal.no-active {
+  opacity: 0;
+}
+.modal.active {
+  opacity: 1;
+  display: block;
+}
+.modal.right,
+.modal.right > .overlay {
+  top: var(--default-layout-header-height);
+}
+.modal.center,
+.modal.center > .overlay {
+  top: 0;
+  z-index: 20;
+}
