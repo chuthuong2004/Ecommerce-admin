@@ -58,7 +58,7 @@ const App: React.FC = () => {
 function RequireAuth({ children }: { children: any }): JSX.Element {
   const { user } = useAppSelector(selectAuth);
   let location = useLocation();
-  if (!user) {
+  if (user) {
     return <Navigate to={config.routes.login} state={{ from: location }} replace={true} />;
   }
   return children;

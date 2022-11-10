@@ -1,3 +1,37 @@
 .container {
-  height: 3000px;
+    height: 3000px;
+    .content {
+        .container-chart {
+            display: flex;
+            gap: 5px;
+            height: 500px;
+            .title {
+                font-size: 1.9rem;
+                font-weight: 500;
+                line-height: 23.04px;
+                margin: 0px 0px 8px;
+            }
+            .sales-chart,
+            .channel {
+                width: 100%;
+                padding: 10px;
+            }
+            .sales-chart {
+                flex: 1.2;
+            }
+            .channel {
+                flex: .8;
+            }
+            .chart,
+            .channel-chart {
+                height: 100%;
+                margin-top: 20px;
+                background-color: #ffffff;
+                border-radius: 16px;
+                font-size: 14px;
+                line-height: 21px;
+                padding: 24px;
+            }
+        }
+    }
 }

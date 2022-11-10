@@ -1,23 +1,23 @@
 .container {
-  display: flex;
-  letter-spacing: 1px;
-  font-size: 1.4rem;
-  background-color: #f5f4fe;
-  .sidebar {
-    position: fixed;
-    width: 25vw;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    height: 100vh;
+    display: flex;
+    letter-spacing: 1px;
+    font-size: 1.4rem;
     background-color: #f5f4fe;
-  }
-  .right {
-    width: 100%;
-    margin-left: 25vw;
-    .content {
-      padding: 2rem;
-      margin-top: var(--height-header);
+    .sidebar {
+        position: fixed;
+        width: 20vw;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        height: 100vh;
+        background-color: #f5f4fe;
     }
-  }
+    .right {
+        width: 100%;
+        margin-left: 20vw;
+        .content {
+            padding: 2rem;
+            margin-top: var(--height-header);
+        }
+    }
 }
