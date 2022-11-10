@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 import { LogoIcon, TruckIcon } from '../../../components/Icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import config from '../../../config';
+import { useLogoutUserMutation } from '../../../services/authApi';
+import { logout } from '../../../features/authSlice';
+import { useAppDispatch } from '../../../app/hooks';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 const links = [
   {
@@ -52,8 +56,44 @@ const links = [
     icon: <TruckIcon />,
     title: 'Đánh giá',
   },
+  {
+    to: '#',
+    icon: <TruckIcon />,
+    title: 'Đăng xuất',
+  },
 ];
+
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  const [
+    logoutUser,
+    {
+      data: logoutData,
+      isLoading: isLoadingLogout,
+      isSuccess: isLogoutSuccess,
+      isError: isLogoutError,
+      error: logoutError,
+    },
+  ] = useLogoutUserMutation();
+
+  useEffect(() => {
+    if (isLogoutSuccess) {
+      dispatch(logout());
+      navigate(config.routes.login);
+      toast.success((logoutData as any).message);
+    }
+    if (isLogoutError) {
+      console.log(logoutError);
+      toast.error((logoutError as any).data.message);
+    }
+  }, [isLoadingLogout]);
+  const handleLogout = async (link: any) => {
+    if (link.to === '#') {
+      await logoutUser({});
+    }
+  };
   return (
     <div className={cx('container')}>
       <div className={cx('logo')}>Admin Koga</div>
@@ -74,7 +114,10 @@ const Sidebar = () => {
             <NavLink
               key={i}
               to={link.to}
-              className={(nav) => cx('menu__links--item', { active: nav.isActive })}
+              onClick={() => handleLogout(link)}
+              className={(nav) =>
+                cx('menu__links--item', { active: nav.isActive && link.to !== '#' })
+              }
             >
               {link.icon}
               <span>{link.title}</span>
