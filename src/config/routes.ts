@@ -9,5 +9,7 @@ const routes = {
   chat: '/tin-nhan',
   review: '/danh-gia',
   login: '/dang-nhap',
+  register: '/dang-ki',
+  home: '/',
 };
 export default routes;

@@ -35,6 +35,11 @@ const routes: Array<routeType> = [
     layout: null,
   },
   {
+    path: config.routes.register,
+    component: Login,
+    layout: null,
+  },
+  {
     path: config.routes.order,
     component: Order,
   },

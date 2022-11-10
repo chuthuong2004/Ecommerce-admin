@@ -5,7 +5,6 @@ import authReducer from '../features/authSlice';
 
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { cartsApi } from '../services/cartsApi';
 import cartReducer from '../features/cartSlice';
 import { ordersApi } from '../services/ordersApi';
 const persistConfig = {
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
   [authApi.reducerPath]: authApi.reducer,
-  [cartsApi.reducerPath]: cartsApi.reducer,
   [ordersApi.reducerPath]: ordersApi.reducer,
 });
 
@@ -28,7 +26,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
       authApi.middleware,
-      cartsApi.middleware,
       ordersApi.middleware,
     ]),
 });

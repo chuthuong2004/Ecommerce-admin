@@ -28,21 +28,25 @@ const App: React.FC = () => {
         {routes.map((route, index) => {
           const Page = route.component;
           let Layout: any = DefaultLayout;
+          let PrivateRoute = RequireAuth;
           if (route.layout) {
             Layout = route.layout;
           } else if (route.layout === null) {
             Layout = Fragment;
+            PrivateRoute = ({ children }: { children: any }) => {
+              return children;
+            };
           }
           return (
             <Route
               key={index}
               path={route.path}
               element={
-                <RequireAuth>
+                <PrivateRoute>
                   <Layout>
                     <Page />
                   </Layout>
-                </RequireAuth>
+                </PrivateRoute>
               }
             />
           );
@@ -54,7 +58,7 @@ const App: React.FC = () => {
 function RequireAuth({ children }: { children: any }): JSX.Element {
   const { user } = useAppSelector(selectAuth);
   let location = useLocation();
-  if (user) {
+  if (!user) {
     return <Navigate to={config.routes.login} state={{ from: location }} replace={true} />;
   }
   return children;
