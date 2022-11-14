@@ -5,8 +5,8 @@ import { LogoIcon, TruckIcon } from '../../../components/Icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import config from '../../../config';
 import { useLogoutUserMutation } from '../../../services/authApi';
-import { logout } from '../../../features/authSlice';
-import { useAppDispatch } from '../../../app/hooks';
+import { logout, selectAuth } from '../../../features/authSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 const links = [
@@ -65,7 +65,7 @@ const links = [
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
-
+  const { user } = useAppSelector(selectAuth);
   const navigate = useNavigate();
   const [
     logoutUser,
@@ -100,12 +100,16 @@ const Sidebar = () => {
       <div className={cx('menu')}>
         <div className={cx('menu__account')}>
           <img
-            src="https://vetra.laborasyon.com/assets/images/user/man_avatar3.jpg"
+            src={
+              user?.avatar
+                ? process.env.REACT_APP_API_URL + user.avatar
+                : 'https://vetra.laborasyon.com/assets/images/user/man_avatar3.jpg'
+            }
             className={cx('menu__account__img')}
             alt=""
           />
           <div className={cx('menu__account__info')}>
-            <h3>Đào Văn Thương</h3>
+            <h3>{user?.firstName ? user.firstName + ' ' + user?.lastName : user?.username}</h3>
             <span>Quản lý bán hàng</span>
           </div>
         </div>

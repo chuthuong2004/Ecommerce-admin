@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode } from 'react';
+import React, { Fragment, ReactNode, useContext } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,10 +16,11 @@ import DefaultLayout from './layouts/DefaultLayout/DefaultLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import routes from './routes';
-
-// 258122201888-nki79uqhlu4g7tbmj5cukepcqvcs2d5u.apps.googleusercontent.com
-// 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
+import { useSockets } from './context/socket.context';
 const App: React.FC = () => {
+  const { socket } = useSockets();
+  console.log(socket.id);
+
   return (
     <Router>
       <ToastContainer autoClose={3000} />

@@ -7,6 +7,7 @@ import GlobalStyles from './components/GlobalStyles/GlobalStyles';
 import reportWebVitals from './reportWebVitals';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import SocketsProvider from './context/socket.context';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 let persistor = persistStore(store);
@@ -14,9 +15,11 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <GlobalStyles>
-          <App />
-        </GlobalStyles>
+        <SocketsProvider>
+          <GlobalStyles>
+            <App />
+          </GlobalStyles>
+        </SocketsProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>,

@@ -1,23 +1,27 @@
 .container {
-    display: flex;
-    letter-spacing: 1px;
-    font-size: 1.4rem;
+  display: flex;
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+  background-color: #f5f4fe;
+  .sidebar {
+    position: fixed;
+    width: 20vw;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    max-height: 100vh;
     background-color: #f5f4fe;
-    .sidebar {
-        position: fixed;
-        width: 20vw;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        height: 100vh;
-        background-color: #f5f4fe;
+  }
+  .right {
+    width: 100%;
+    margin-left: 20vw;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    .content {
+      padding: 2rem;
+      margin-top: var(--height-header);
+      flex: 1;
     }
-    .right {
-        width: 100%;
-        margin-left: 20vw;
-        .content {
-            padding: 2rem;
-            margin-top: var(--height-header);
-        }
-    }
+  }
 }

@@ -8,7 +8,8 @@ import config from '../../config';
 import { useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, ReactNode } from 'react';
 import Sidebar from '../components/Sidebar/Sidebar';
-import HeaderContent from './../components/HeaderContent/HeaderContent';
+import HeaderContent from '../components/HeaderContent';
+import FooterContent from '../components/FooterContent';
 const cx = classNames.bind(styles);
 
 type Props = {
@@ -36,9 +37,8 @@ const DefaultLayout: React.FC<Props> = ({ children }) => {
       <div className={cx('right')}>
         <HeaderContent />
         <div className={cx('content')}> {children} </div>
+        <FooterContent />
       </div>
-      {/* Footer */}
-      {/* <Footer /> */}
     </div>
   );
 };

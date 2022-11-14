@@ -1,0 +1,99 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  &.own {
+    align-items: flex-end;
+    .message-top {
+      align-items: flex-end;
+      justify-content: right;
+    }
+    .message-text {
+      background-color: #ffe2d9;
+    }
+  }
+  &-top {
+    display: flex;
+    align-items: flex-end;
+    max-width: 60%;
+    .message-img-text {
+      max-width: 40%;
+      border-radius: 5px;
+    }
+  }
+  &-img-container {
+    position: relative;
+    .message-img-name {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin-right: 10px;
+      background-color: #f7f8f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dot-online {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      bottom: 0px;
+      right: 10px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background-color: green;
+      &.logged {
+        background-color: rgb(179, 173, 173);
+      }
+    }
+  }
+  &-img {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  &-text {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: black;
+
+    /* loading */
+    .loading {
+      display: flex;
+      align-items: center;
+      span {
+        width: 7px;
+        height: 7px;
+        margin: 0 2px;
+        background-color: rgb(119, 114, 114);
+        border-radius: 50%;
+        display: inline-block;
+        animation-name: dots;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        &:nth-child(2) {
+          background-color: rgb(119, 114, 114);
+          animation-delay: 0.2s;
+        }
+        &:nth-child(3) {
+          background-color: rgb(119, 114, 114);
+          animation-delay: 0.4s;
+        }
+      }
+    }
+  }
+  &-bottom {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+}
+@keyframes dots {
+  50% {
+    opacity: 0;
+    transform: scale(0.7) translateY(10px);
+  }
+}
