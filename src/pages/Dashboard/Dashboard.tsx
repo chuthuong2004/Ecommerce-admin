@@ -17,6 +17,17 @@ const Dashboard = () => {
             <div className={cx('channel-chart')}>Channels</div>
           </div>
         </div>
+        <div className={cx('graph')}>
+          <div className={cx('graph-orders')}>
+            <span className={cx('title')}>Orders</span>
+          </div>
+          <div className={cx('graph-sales')}>
+            <span className={cx('title')}>Sales</span>
+          </div>
+          <div className={cx('graph-reviews')}>
+            <span className={cx('title')}>Reviews</span>
+          </div>
+        </div>
       </div>
     </div>
   );
