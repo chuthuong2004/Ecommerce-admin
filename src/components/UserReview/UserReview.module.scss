@@ -1,0 +1,33 @@
+.container {
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        .info-user {
+            display: flex;
+            gap: 20px;
+            .avatar {
+                width: 48px;
+                height: 48px;
+                & img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+            .user-name-rating {
+                .username {
+                    font-size: 17.5px;
+                    font-weight: 500;
+                    line-height: 26.25px;
+                    margin: 0px 0px 4px;
+                }
+            }
+        }
+        .content {
+            font-size: 14px;
+            line-height: 21px;
+        }
+    }
+}
