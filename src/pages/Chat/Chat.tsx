@@ -41,16 +41,16 @@ const Chat = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   console.log(socket.id);
   useEffect(() => {
-    socket.on(config.socketEvents.SERVER.GET_MESSAGE, (message: IMessage) => {
+    socket.on(config.socketEvents.SERVER.GET_MESSAGE, ({ message }: { message: IMessage }) => {
       setMessages((prev) => {
-        console.log({
-          sender: message.sender.username,
-          user: user?.username,
-          currentChat: currentChat?._id,
-          conversation: message.conversation,
-          message: prev,
-          yes: user?._id !== message.sender._id && currentChat?._id === message.conversation,
-        });
+        // console.log({
+        //   sender: message.sender.username,
+        //   user: user?.username,
+        //   currentChat: currentChat?._id,
+        //   conversation: message.conversation,
+        //   message: prev,
+        //   yes: user?._id !== message.sender._id && currentChat?._id === message.conversation,
+        // });
         const lastPrevMessage = prev[prev.length - 1];
         if (
           lastPrevMessage &&
@@ -121,6 +121,52 @@ const Chat = () => {
       }
     };
     currentChat && getMessages();
+    const timeout = setTimeout(() => {
+      setMessages((prev) => {
+        const newMessage = prev.filter((message) => message._id !== '923457923845729454279525');
+        return newMessage;
+      });
+    }, 3000);
+    socket.on(
+      config.socketEvents.SERVER.LOADING,
+      (data: {
+        isKeyPressedDown: boolean;
+        senderId: string;
+        receiverId: string;
+        conversationId: string;
+      }) => {
+        console.log('nhận được rồi', data);
+
+        if (currentChat && currentChat?._id === data.conversationId) {
+          setMessages((prev) => {
+            if (prev.find((message) => message?.isLoading)) {
+              clearTimeout(timeout);
+              return [...prev];
+            }
+            const messageIncludeSender = prev.find(
+              (message) => message.sender?._id === data.senderId,
+            );
+            if (messageIncludeSender?.conversation === data.conversationId) {
+              return [
+                ...prev,
+                {
+                  _id: '923457923845729454279525',
+                  sender: messageIncludeSender.sender,
+                  text: 'loading',
+                  conversation: data.conversationId,
+                  seen: true,
+                  isLoading: true,
+                  createdAt: String(Date.now()),
+                  updatedAt: String(Date.now()),
+                  __v: 0,
+                },
+              ];
+            }
+            return [...prev];
+          });
+        }
+      },
+    );
   }, [currentChat]);
 
   useEffect(() => {

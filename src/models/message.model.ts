@@ -10,5 +10,6 @@ export interface IMessage {
   createdAt: string;
   updatedAt: string;
   seenAt?: string;
+  isLoading?: boolean;
   __v: number;
 }

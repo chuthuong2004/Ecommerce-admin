@@ -8,6 +8,7 @@ const events = {
   SERVER: {
     GET_USERS: 'get_users',
     GET_MESSAGE: 'get_message',
+    LOADING: 'loading',
   },
 };
 export default events;

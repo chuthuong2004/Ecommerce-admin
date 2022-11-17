@@ -38,9 +38,8 @@ const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChan
       }
     };
     getLatestMessage();
-    socket.on(config.socketEvents.SERVER.GET_MESSAGE, (message: IMessage) => {
-      if (receiver?._id === message.sender._id && conversation._id === message.conversation)
-        setLatestMessage(message);
+    socket.on(config.socketEvents.SERVER.GET_MESSAGE, ({ message }: { message: IMessage }) => {
+      if (conversation._id === message.conversation) setLatestMessage(message);
     });
   }, []);
   useEffect(() => {
