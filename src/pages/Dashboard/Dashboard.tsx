@@ -4,11 +4,22 @@ import { FaShoppingBasket } from 'react-icons/fa';
 import { FiArrowDown, FiArrowUp } from 'react-icons/fi';
 import { BsThreeDots, BsCreditCard2Front } from 'react-icons/bs';
 import HeadlessTippy from '@tippyjs/react/headless';
+import Slider from 'react-slick';
+import { BsTruck, BsReceipt } from 'react-icons/bs';
+import { HiOutlineChartBar } from 'react-icons/hi';
+import { FaRegPaperPlane } from 'react-icons/fa';
 
 import styles from './Dashboard.module.scss';
 import Button from '../../components/Button';
+import UserReview from '../../components/UserReview';
 
 const cx = classNames.bind(styles);
+const settings = {
+  infinite: true,
+  speed: 100,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 const renderTippy = (attrs: any) => (
   <div className={cx('menu-more')} tabIndex="-1" {...attrs}>
     <div className={cx('action-more')}>
@@ -73,7 +84,75 @@ const Dashboard = () => {
             </p>
           </div>
           <div className={cx('graph-reviews')}>
-            <span className={cx('title')}>Reviews</span>
+            <div className={cx('card-title')}>
+              <span className={cx('title')}>Recent Reviews</span>
+              <span className={cx('view-all')}>View all</span>
+            </div>
+            <div className={cx('reviewers')}>
+              <Slider {...settings}>
+                <UserReview />
+                <UserReview />
+                <UserReview />
+                <UserReview />
+                <UserReview />
+              </Slider>
+            </div>
+          </div>
+        </div>
+        <div className={cx('overview-actions')}>
+          <div className={cx('cards-overview')}>
+            <span className={cx('title-overview')}>Activity Overview</span>
+            <div className={cx('cards')}>
+              <div className={cx('card', 'card-delivered')}>
+                <p className={cx('icon')}>
+                  <BsTruck />
+                </p>
+                <span className={cx('title')}>Delivered</span>
+                <p className={cx('info-detail')}>15 New Packages</p>
+                <div className={cx('card-process')}>
+                  <div className={cx('process-bar')}></div>
+                </div>
+              </div>
+              <div className={cx('card', 'card-order')}>
+                <p className={cx('icon')}>
+                  <BsReceipt />
+                </p>
+                <span className={cx('title')}>Ordered</span>
+                <p className={cx('info-detail')}>75 New Items</p>
+                <div className={cx('card-process')}>
+                  <div className={cx('process-bar')}></div>
+                </div>
+              </div>
+              <div className={cx('card', 'card-reported')}>
+                <p className={cx('icon')}>
+                  <HiOutlineChartBar />
+                </p>
+                <span className={cx('title')}>Reported</span>
+                <p className={cx('info-detail')}>50 Support New Case</p>
+                <div className={cx('card-process')}>
+                  <div className={cx('process-bar')}></div>
+                </div>
+              </div>
+              <div className={cx('card', 'card-arrived')}>
+                <p className={cx('icon')}>
+                  <FaRegPaperPlane />
+                </p>
+                <span className={cx('title')}>Arrived</span>
+                <p className={cx('info-detail')}>34 Upgrade Boxed</p>
+                <div className={cx('card-process')}>
+                  <div className={cx('process-bar')}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={cx('recent-product')}>
+            <span className={cx('title-overview')}>
+              <span>Recent Product</span>
+              <p>
+                <BsThreeDots className={cx('icon-more')} />
+              </p>
+            </span>
+            <div className={cx('table-product')}></div>
           </div>
         </div>
       </div>
