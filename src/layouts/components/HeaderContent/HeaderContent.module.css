@@ -1,0 +1,43 @@
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #f5f4fe;
+  gap: 70px;
+  padding: 2rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 20vw;
+  z-index: 100;
+  height: var(--height-header);
+}
+
+.container .title {
+  font-size: 2.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.container .search {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.container .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 20px;
+}
+/*# sourceMappingURL=HeaderContent.module.css.map */

@@ -10,20 +10,44 @@ import { selectAuth } from '../../features/authSlice';
 import { IMessage } from '../../models/message.model';
 import { IUser } from '../../models/user.model';
 import axiosClient from '../../api/axiosClient';
+import { useSockets } from '../../context/socket.context';
+import config from '../../config';
+import messageApi from '../../api/messageApi';
 const cx = classNames.bind(styles);
 type Props = {
   conversation: IConversation;
-  latestMessageChange?: IMessage;
   active: boolean;
+  latestMessageChanged?: IMessage;
 };
-const Conversation: React.FC<Props> = ({ conversation, latestMessageChange, active }) => {
-  console.log(conversation);
-
+const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChanged }) => {
+  // console.log(conversation);
+  const { socket } = useSockets();
   const { user } = useAppSelector(selectAuth);
   const [receiver, setReceiver] = useState(
     conversation.members.find((member: IUser) => member._id !== user?._id),
   );
   const [latestMessage, setLatestMessage] = useState<IMessage | undefined>(undefined);
+
+  useEffect(() => {
+    const getLatestMessage = async () => {
+      try {
+        const res: IMessage = await messageApi.getMessageLatestFromConversation(conversation._id);
+        setLatestMessage(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getLatestMessage();
+    socket.on(config.socketEvents.SERVER.GET_MESSAGE, (message: IMessage) => {
+      if (receiver?._id === message.sender._id && conversation._id === message.conversation)
+        setLatestMessage(message);
+    });
+  }, []);
+  useEffect(() => {
+    latestMessageChanged &&
+      conversation._id === latestMessageChanged._id &&
+      setLatestMessage(latestMessageChanged);
+  }, [latestMessageChanged]);
   useEffect(() => {
     const getLatestMessage = async () => {
       try {
@@ -33,8 +57,8 @@ const Conversation: React.FC<Props> = ({ conversation, latestMessageChange, acti
         console.log(error);
       }
     };
-    getLatestMessage();
-  }, [conversation, latestMessageChange]);
+    active && getLatestMessage();
+  }, [conversation, active]);
   return (
     <div
       className={cx(

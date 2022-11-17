@@ -8,14 +8,14 @@
 .modal,
 .overlay {
   width: 100vw;
-  top: var(--default-layout-header-height);
   left: 0;
   right: 0;
   bottom: 0;
   position: fixed;
-  z-index: 9;
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
+  z-index: 101;
+  -webkit-transition: all 0.6s ease-in-out;
+  transition: all 0.6s ease-in-out;
+  background-color: rgba(49, 49, 49, 0.5);
 }
 
 .modal.no-active {
@@ -27,124 +27,14 @@
   display: block;
 }
 
-@-webkit-keyframes fade {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fade {
-  to {
-    opacity: 0;
-  }
-}
-
-.overlay {
-  background-color: rgba(49, 49, 49, 0.8);
-}
-
-.modal-content {
-  position: fixed;
+.modal.right,
+.modal.right > .overlay {
   top: var(--default-layout-header-height);
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translateY(-50%, -50%);
-          transform: translateY(-50%, -50%);
-  line-height: 1.4;
-  background-color: #fff;
-  padding: var(--top-width) var(--right-width);
-  border-radius: 3px;
-  width: var(--width-content-modal);
-  z-index: 9999;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  overflow-y: scroll;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-  -webkit-animation: fadeIn 1s ease-in-out;
-          animation: fadeIn 1s ease-in-out;
 }
 
-.modal-content.empty {
-  overflow-y: none;
-  background-color: red;
-}
-
-.modal-content.no-active {
-  -webkit-animation: fadeOut 1s ease-in-out;
-          animation: fadeOut 1s ease-in-out;
-}
-
-.modal-content .title {
-  margin-bottom: 1rem;
-}
-
-.modal-content .close {
-  position: absolute;
-  top: var(--top-width);
-  right: var(--right-width);
-  cursor: pointer;
-}
-
-.modal-content .content {
-  height: calc(100% - var(--top-height-modal));
-  overflow-y: scroll;
-}
-
-.modal-content .wishlist-actions {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: var(--top-width) var(--right-width);
-}
-
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-    -webkit-transform: translateX(40rem);
-            transform: translateX(40rem);
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    -webkit-transform: translateX(40rem);
-            transform: translateX(40rem);
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    -webkit-transform: translateX(40rem);
-            transform: translateX(40rem);
-    opacity: 0;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    -webkit-transform: translateX(40rem);
-            transform: translateX(40rem);
-    opacity: 0;
-  }
+.modal.center,
+.modal.center > .overlay {
+  top: 0;
+  z-index: 20;
 }
 /*# sourceMappingURL=PopUp.module.css.map */

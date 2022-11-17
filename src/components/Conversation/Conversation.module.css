@@ -1,0 +1,119 @@
+.container {
+  padding: 12px 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.container.unread {
+  font-weight: 700;
+}
+
+.container.unread .name {
+  color: var(--bs-success) !important;
+}
+
+.container.active {
+  border: 1px solid var(--bs-primary);
+  font-weight: 400;
+}
+
+.container.active .name {
+  color: var(--primary) !important;
+}
+
+.container .conversation-img {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.container .conversation-img .img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.container .conversation-img .dot-online {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bs-gray);
+  border: 2px solid var(--bs-white);
+}
+
+.container .conversation-img .dot-online.active {
+  background-color: var(--bs-success) !important;
+}
+
+.container .conversation-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.container .conversation-right .conversation-info {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.container .conversation-right .conversation-info .name {
+  color: var(--primary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.container .conversation-right .conversation-info .text-muted {
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 5px;
+  color: var(--bs-gray);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.container .conversation-right .actions {
+  text-align: right;
+  font-size: 12px;
+}
+
+.container .conversation-right .actions .actions-icon {
+  color: var(--bs-primary);
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.container .conversation-right .actions p {
+  color: var(--bs-gray);
+}
+/*# sourceMappingURL=Conversation.module.css.map */

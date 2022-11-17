@@ -173,6 +173,7 @@
   text-align: center;
   text-transform: uppercase;
   color: var(--primary);
+  cursor: pointer;
   -webkit-transition: all 0.6s ease-in-out;
   transition: all 0.6s ease-in-out;
   position: relative;
@@ -216,7 +217,12 @@
   transition: all 0.6s ease-in-out;
 }
 
-.login-section .container .wrapper .col-lg .customer-actions__wrapper .customer-actions__form .login-n-signup .nav-links .nav-link.active + .line {
+.login-section .container .wrapper .col-lg .customer-actions__wrapper .customer-actions__form .login-n-signup .nav-links.sign-in > .line {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.login-section .container .wrapper .col-lg .customer-actions__wrapper .customer-actions__form .login-n-signup .nav-links.sign-up > .line {
   -webkit-transform: translateX(100%);
           transform: translateX(100%);
 }

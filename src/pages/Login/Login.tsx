@@ -14,13 +14,9 @@ import {
 } from '../../services/authApi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setCredentials } from '../../features/authSlice';
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { clearCart, selectCart } from '../../features/cartSlice';
-import { ICartItem } from '../../models/cart.model';
 import ReactLoading from 'react-loading';
-import jwt_decode from 'jwt-decode';
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +33,6 @@ const initialState: InputAuth = {
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const cart = useAppSelector(selectCart);
 
   const dispatch = useAppDispatch();
   const { from } = location.state || { from: { pathname: '/' } };
@@ -45,7 +40,6 @@ const Login = () => {
   const [activeSignup, setActiveSignup] = useState(false);
   const [errorInput, setErrorInput] = useState<InputAuth>(initialState);
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-  const [cartItems, setCartItems] = useState(cart?.cartItems);
   const [
     loginUser,
     {
@@ -56,16 +50,6 @@ const Login = () => {
       error: loginError,
     },
   ] = useLoginUserMutation();
-  const [
-    loginWithGoogle,
-    {
-      data: dataGoogle,
-      isLoading: isLoadingGoogle,
-      isSuccess: isSuccessGoogle,
-      isError: isErrorGoogle,
-      error: errorGoogle,
-    },
-  ] = useLoginWithGoogleMutation();
   const [
     registerUser,
     {
@@ -151,14 +135,14 @@ const Login = () => {
   useEffect(() => {
     if (isLoginSuccess) {
       if (loginData) {
-        if (loginData.isAdmin) {
-          const { accessToken, refreshToken, ...user } = loginData;
-          dispatch(setCredentials({ user: { ...user }, token: { accessToken, refreshToken } }));
-          toast.success('Đăng nhập thành công !');
-          navigate(from.pathname);
-        } else {
-          toast.error('Vui lòng đăng nhập với admin!');
-        }
+        // if (loginData.isAdmin) {
+        const { accessToken, refreshToken, ...user } = loginData;
+        dispatch(setCredentials({ user: { ...user }, token: { accessToken, refreshToken } }));
+        toast.success('Đăng nhập thành công !');
+        navigate(from.pathname);
+        // } else {
+        //   toast.error('Vui lòng đăng nhập với admin!');
+        // }
       }
     }
 

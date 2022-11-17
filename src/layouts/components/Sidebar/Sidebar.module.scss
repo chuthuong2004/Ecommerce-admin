@@ -1,5 +1,7 @@
 .container {
   background-color: #f5f4fe;
+  max-height: 100vh;
+  overflow-y: scroll;
   .logo {
     background-color: #f5f4fe;
     height: var(--height-header);

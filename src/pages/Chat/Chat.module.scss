@@ -120,6 +120,8 @@
     &__body {
       flex: 1;
       overflow-y: scroll;
+      // max-height: fit-content;
+      // max-height: 290px;
       max-height: 600px;
       min-height: 600px;
     }

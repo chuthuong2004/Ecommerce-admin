@@ -15,15 +15,16 @@ import {
   FaSmile,
   FaVideo,
 } from 'react-icons/fa';
-import Input from '../../components/Input';
 import { useSockets } from '../../context/socket.context';
-import axiosClient from '../../api/axiosClient';
 import { IConversation } from '../../models/conversation.model';
 import { IUser } from '../../models/user.model';
 import { IMessage } from '../../models/message.model';
 import { useAppSelector } from '../../app/hooks';
 import { selectAuth } from '../../features/authSlice';
 import { toast } from 'react-toastify';
+import messageApi from './../../api/messageApi';
+import conversationApi from '../../api/conversationApi';
+import config from '../../config';
 const cx = classNames.bind(styles);
 const Chat = () => {
   const { user } = useAppSelector(selectAuth);
@@ -31,17 +32,60 @@ const Chat = () => {
   const [loadingConversation, setLoadingConversation] = useState(false);
   const [loadingGetMessage, setLoadingGetMessage] = useState(false);
   const [currentChat, setCurrentChat] = useState<IConversation | null>(null);
+  const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [receiver, setReceiver] = useState<IUser | undefined>(undefined);
 
   const { socket } = useSockets();
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   console.log(socket.id);
+  useEffect(() => {
+    socket.on(config.socketEvents.SERVER.GET_MESSAGE, (message: IMessage) => {
+      setMessages((prev) => {
+        console.log({
+          sender: message.sender.username,
+          user: user?.username,
+          currentChat: currentChat?._id,
+          conversation: message.conversation,
+          message: prev,
+          yes: user?._id !== message.sender._id && currentChat?._id === message.conversation,
+        });
+        const lastPrevMessage = prev[prev.length - 1];
+        if (
+          lastPrevMessage &&
+          user?._id !== message.sender._id &&
+          lastPrevMessage.conversation === message.conversation &&
+          lastPrevMessage._id !== message._id
+        ) {
+          return [...prev, message];
+        }
+        return prev;
+      });
+      // }
+      const handleUpdateConversation = async () => {
+        try {
+          const res = await conversationApi.updateConversation(message.conversation);
+          if (res) {
+            setConversations((prev) => [
+              res,
+              ...prev.filter((conversation) => conversation._id !== res._id),
+            ]);
+          }
+          console.log(res);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      handleUpdateConversation();
+      console.log('getMessage', message);
+    });
+  }, []);
   useEffect(() => {
     const fetchConversations = async () => {
       try {
         setLoadingConversation(true);
-        const res: IConversation[] = await axiosClient.get('conversations');
+        const res: IConversation[] = await conversationApi.getMyConversation();
         console.log(res);
         if (res) {
           setConversations(res);
@@ -52,15 +96,22 @@ const Chat = () => {
       }
     };
     fetchConversations();
-  }, []);
+  }, [user?._id]);
   useEffect(() => {
     const getMessages = async () => {
       setReceiver(currentChat?.members.find((member) => member._id !== user?._id));
       try {
+        const params = {
+          page: 1,
+          limit: 0,
+          sort: 'createdAt',
+        };
         setLoadingGetMessage(true);
-        const res: IMessage[] = await axiosClient.get(`messages/${currentChat?._id}`);
+        const res: IMessage[] = await messageApi.getMessagesFromConversation(
+          currentChat?._id || '',
+          params,
+        );
         console.log(res);
-
         if (res) {
           setMessages(res);
           setLoadingGetMessage(false);
@@ -71,22 +122,42 @@ const Chat = () => {
     };
     currentChat && getMessages();
   }, [currentChat]);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (currentChat && receiver?._id === messages[messages.length - 1].sender._id) {
+      handleUpdateSeenMessage(currentChat?._id, receiver?._id);
+    }
+  }, [messages]);
+
+  const handleUpdateSeenMessage = async (conversation: string, receiverId: string) => {
+    try {
+      const res = await messageApi.updateSeenMessage(conversation, receiverId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleClickConversation = (conversation: IConversation) => {
+    const receiverId = conversation.members.find((member) => member._id !== user?._id)?._id || '';
+    handleUpdateSeenMessage(conversation._id, receiverId);
     setCurrentChat(conversation);
   };
-  console.log(currentChat);
-  const handleSendMessage = async () => {
-    console.log(messageInputRef.current?.value);
-    if (messageInputRef.current?.value) {
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newMessage) {
       try {
-        const message: IMessage = await axiosClient.post('/messages', {
+        const message: IMessage = await messageApi.create({
           conversation: currentChat?._id,
           sender: user?._id,
-          text: messageInputRef.current?.value,
+          text: newMessage,
         });
         if (message) {
           setMessages((prev) => [...prev, message]);
-
+          socket.emit(config.socketEvents.CLIENT.SEND_MESSAGE, {
+            message,
+            receiverId: receiver?._id,
+          });
+          setNewMessage('');
           messageInputRef.current?.focus();
         }
       } catch (error) {}
@@ -94,6 +165,18 @@ const Chat = () => {
       toast.info('Vui lòng nhập thông tin');
     }
   };
+  const handleKeyDown = () => {
+    socket.emit(config.socketEvents.CLIENT.KEY_DOWN, {
+      isKeyPressedDown: true,
+      senderId: user?._id || '',
+      conversationId: currentChat?._id || '',
+      receiverId: receiver?._id || '',
+    });
+  };
+  console.log('current: ', currentChat);
+  console.log('message: ', messages);
+  console.log('====================================');
+
   return (
     <div className={cx('chat')}>
       <div className={cx('chat-sidebar')}>
@@ -122,7 +205,7 @@ const Chat = () => {
                   <Conversation
                     conversation={conversation}
                     active={currentChat?._id === conversation._id}
-                    latestMessageChange={
+                    latestMessageChanged={
                       currentChat?._id === conversation._id
                         ? messages[messages.length - 1]
                         : undefined
@@ -172,12 +255,12 @@ const Chat = () => {
             </div>
             <div className={cx('chat-box__body')}>
               {messages.map((message) => (
-                <div key={message._id}>
+                <div ref={scrollRef} key={message._id}>
                   <Message message={message} own={message?.sender?._id === user?._id} />
                 </div>
               ))}
             </div>
-            <div className={cx('chat-box__footer')}>
+            <form className={cx('chat-box__footer')}>
               <div className={cx('icon')}>
                 <FaPlusCircle />
               </div>
@@ -196,7 +279,11 @@ const Chat = () => {
                   className={cx('input')}
                   name="message"
                   placeholder="Aa"
-                  // onKeyUp={handleKeyUp}
+                  value={newMessage}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setNewMessage(e.target.value)
+                  }
+                  onKeyDown={handleKeyDown}
                 />
                 <div className={cx('icon', 'emoji')}>
                   <FaSmile />
@@ -206,7 +293,7 @@ const Chat = () => {
               <button onClick={handleSendMessage} className={cx('chat-submit')}>
                 <FaPaperPlane />
               </button>
-            </div>
+            </form>
           </>
         ) : (
           <div className={cx('empty-conversation')}>
