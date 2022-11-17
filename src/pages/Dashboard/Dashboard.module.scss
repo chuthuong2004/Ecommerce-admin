@@ -38,7 +38,7 @@
         }
         .graph {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             height: 22.5rem;
             padding: 5px 10px;
             .graph-orders,
@@ -47,11 +47,69 @@
                 flex: 1;
                 background-color: #ffffff;
                 border-radius: 1rem;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
                 .title {
-                    font-size: 2.1rem;
+                    font-size: 21px;
                     font-weight: 500;
-                    line-height: 3rem;
+                    line-height: 31.5px;
                     margin: 0px 0px 16px;
+                }
+                .amount {
+                    font-size: 32px;
+                    line-height: 38.4px;
+                }
+                .rate-of-change {
+                    color: #05b171;
+                    font-size: 14px;
+                    line-height: 21px;
+                    display: flex;
+                    align-items: center;
+                }
+                .icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .icon-graph {
+                        display: inline;
+                        font-size: 32px;
+                        line-height: 38.4px;
+                    }
+                    .icon-more {
+                        display: inline;
+                        font-size: 14px;
+                        line-height: 38.4px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .menu-more {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            color: #212529;
+            font-size: 14px;
+            padding: 8px 0px;
+            width: 209px;
+            .action-more {
+                display: flex;
+                flex-direction: column;
+                justify-content: left;
+                .btn-action-more {
+                    color: #898b8d;
+                    font-size: 12px;
+                    padding: 8px 25px;
+                    text-align: left;
+                    width: 100%;
+                    flex: 1;
+                    text-transform: none;
+                    background-color: transparent;
+                    &:hover {
+                        color: #ff6e40;
+                    }
                 }
             }
         }
