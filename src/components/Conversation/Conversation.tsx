@@ -13,7 +13,11 @@ import axiosClient from '../../api/axiosClient';
 import { useSockets } from '../../context/socket.context';
 import config from '../../config';
 import messageApi from '../../api/messageApi';
+import moment from 'moment';
+require('moment/locale/vi');
 const cx = classNames.bind(styles);
+
+// moment.locale('vi');
 type Props = {
   conversation: IConversation;
   active: boolean;
@@ -102,7 +106,7 @@ const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChan
           <div className={cx('actions-icon')}>
             <FaEllipsisH />
           </div>
-          <p>08:27 PM</p>
+          <p>{moment(latestMessage?.createdAt, 'YYYYMMDD').fromNow()}</p>
         </div>
       </div>
     </div>

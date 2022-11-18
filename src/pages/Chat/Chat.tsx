@@ -121,12 +121,7 @@ const Chat = () => {
       }
     };
     currentChat && getMessages();
-    const timeout = setTimeout(() => {
-      setMessages((prev) => {
-        const newMessage = prev.filter((message) => message._id !== '923457923845729454279525');
-        return newMessage;
-      });
-    }, 3000);
+
     socket.on(
       config.socketEvents.SERVER.LOADING,
       (data: {
@@ -140,7 +135,7 @@ const Chat = () => {
         if (currentChat && currentChat?._id === data.conversationId) {
           setMessages((prev) => {
             if (prev.find((message) => message?.isLoading)) {
-              clearTimeout(timeout);
+              // clearTimeout(timeout);
               return [...prev];
             }
             const messageIncludeSender = prev.find(
@@ -164,6 +159,14 @@ const Chat = () => {
             }
             return [...prev];
           });
+          const timeout = setTimeout(() => {
+            setMessages((prev) => {
+              const newMessage = prev.filter(
+                (message) => message._id !== '923457923845729454279525',
+              );
+              return newMessage;
+            });
+          }, 3000);
         }
       },
     );

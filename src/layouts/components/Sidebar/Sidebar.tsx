@@ -8,57 +8,62 @@ import { useLogoutUserMutation } from '../../../services/authApi';
 import { logout, selectAuth } from '../../../features/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { toast } from 'react-toastify';
+import { BsBarChart, BsChatSquare, BsPersonBadge, BsReceipt, BsTruck } from 'react-icons/bs';
+import { BiCategory } from 'react-icons/bi';
+import { MdLogout, MdOutlineCategory, MdOutlineReviews } from 'react-icons/md';
+import { GrCatalog } from 'react-icons/gr';
+import { FaTrademark } from 'react-icons/fa';
 const cx = classNames.bind(styles);
 const links = [
   {
     to: config.routes.dashboard,
-    icon: <TruckIcon />,
+    icon: <BsBarChart />,
     title: 'Dashboard',
   },
   {
     to: config.routes.order,
-    icon: <TruckIcon />,
+    icon: <BsReceipt />,
     title: 'Đơn hàng',
   },
   {
     to: config.routes.brand,
-    icon: <TruckIcon />,
+    icon: <FaTrademark />,
     title: 'Thương hiệu',
   },
   {
     to: config.routes.catalog,
-    icon: <TruckIcon />,
+    icon: <MdOutlineCategory />,
     title: 'Thể loại',
   },
   {
     to: config.routes.category,
-    icon: <TruckIcon />,
+    icon: <BiCategory />,
     title: 'Danh mục',
   },
   {
     to: config.routes.product,
-    icon: <TruckIcon />,
+    icon: <BsTruck />,
     title: 'Sản phẩm',
   },
 
   {
     to: config.routes.customer,
-    icon: <TruckIcon />,
+    icon: <BsPersonBadge />,
     title: 'Khách hàng',
   },
   {
     to: config.routes.chat,
-    icon: <TruckIcon />,
+    icon: <BsChatSquare />,
     title: 'Tin nhắn',
   },
   {
     to: config.routes.review,
-    icon: <TruckIcon />,
+    icon: <MdOutlineReviews />,
     title: 'Đánh giá',
   },
   {
     to: '#',
-    icon: <TruckIcon />,
+    icon: <MdLogout />,
     title: 'Đăng xuất',
   },
 ];
@@ -123,7 +128,7 @@ const Sidebar = () => {
                 cx('menu__links--item', { active: nav.isActive && link.to !== '#' })
               }
             >
-              {link.icon}
+              <span className={cx('icon')}>{link.icon}</span>
               <span>{link.title}</span>
             </NavLink>
           ))}
