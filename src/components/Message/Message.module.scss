@@ -1,12 +1,22 @@
 .message {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: 10px;
   &.own {
     align-items: flex-end;
     .message-top {
       align-items: flex-end;
       justify-content: right;
+      .time {
+        left: auto;
+        right: calc(100% + 5px);
+      }
+      .content {
+        align-items: flex-end;
+        .container-image {
+          justify-content: end;
+        }
+      }
     }
     .message-text {
       background-color: #ffe2d9;
@@ -16,9 +26,48 @@
     display: flex;
     align-items: flex-end;
     max-width: 60%;
-    .message-img-text {
-      max-width: 40%;
-      border-radius: 5px;
+    overflow: hidden;
+    .content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      .container-image {
+        margin-bottom: 5px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: start;
+        &:hover + .time {
+          opacity: 1 !important;
+        }
+        img {
+          min-width: 145px;
+        }
+      }
+      .message-img-text {
+        max-width: 40%;
+        border-radius: 5px;
+      }
+      .message-text {
+        max-width: max-content;
+        &:hover + .time {
+          opacity: 1 !important;
+        }
+      }
+      .time {
+        position: absolute;
+        font-size: 12px;
+        background-color: var(--bs-gray);
+        color: #ffffff;
+        padding: 5px 10px;
+        border-radius: 8px;
+        left: calc(100% + 5px);
+        width: max-content;
+        top: 50%;
+        opacity: 0;
+        transition: all 0.4s ease-in-out;
+        transform: translateY(-50%);
+      }
     }
   }
   &-img-container {
@@ -32,6 +81,9 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      text-transform: uppercase;
+      font-weight: 700;
+      border: 1px solid var(--bs-gray);
     }
     .dot-online {
       position: absolute;
@@ -59,7 +111,6 @@
     border-radius: 8px;
     background-color: #ffffff;
     color: black;
-
     /* loading */
     .loading {
       display: flex;
