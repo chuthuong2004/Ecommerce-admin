@@ -71,15 +71,14 @@ const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChan
       )}
     >
       <div className={cx('conversation-img', 'online')}>
-        <img
-          src={
-            receiver?.avatar
-              ? process.env.REACT_APP_API_URL + receiver.avatar
-              : 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-1/305843184_789881652216377_5919645094904983728_n.jpg?stp=dst-jpg_p100x100&_nc_cat=109&ccb=1-7&_nc_sid=7206a8&_nc_ohc=YoJqzRNx2qQAX8R5sRn&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfDrEiozueQb9zsXwDcDocawUM1ubLZ7ka33peSs1vqAew&oe=63750220'
-          }
-          className={cx('img')}
-          alt=""
-        />
+        {receiver?.avatar ? (
+          <img src={process.env.REACT_APP_API_URL + receiver.avatar} className={cx('img')} alt="" />
+        ) : (
+          <span className={cx('span-img')}>
+            {receiver?.firstName ? receiver.firstName[0] : receiver?.username[0]}
+          </span>
+        )}
+
         <span className={cx('dot-online', 'active')}></span>
       </div>
 
@@ -90,23 +89,27 @@ const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChan
               ? receiver?.firstName + ' ' + receiver?.lastName
               : receiver?.username}
           </p>
-          {latestMessage?.image ? (
+          {latestMessage?.images && latestMessage?.images.length > 0 ? (
             <div className={cx('text-muted')}>
-              <FaImage />
-              Photo
+              <span>
+                {latestMessage?.sender._id === user?._id
+                  ? 'Bạn'
+                  : receiver?.lastName || receiver?.username}{' '}
+                đã gửi {latestMessage?.images.length} ảnh
+              </span>
             </div>
           ) : (
-            <p className={cx('text-muted')}>
+            <div className={cx('text-muted')}>
               {latestMessage?.sender._id === user?._id && 'Bạn: '}
               {latestMessage?.text}
-            </p>
+            </div>
           )}
         </div>
         <div className={cx('actions')}>
           <div className={cx('actions-icon')}>
             <FaEllipsisH />
           </div>
-          <p>{moment(latestMessage?.createdAt, 'YYYYMMDD').fromNow()}</p>
+          <p>{moment(latestMessage?.createdAt).fromNow()}</p>
         </div>
       </div>
     </div>

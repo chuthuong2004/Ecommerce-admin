@@ -4,7 +4,7 @@ const cx = classNames.bind(styles);
 const FooterContent = () => {
   return (
     <div className={cx('container')}>
-      <h3 className={cx('title')}>© 2021 Vetra - Laborasyon</h3>
+      <h3 className={cx('title')}>© 2022 Koga - Clothes</h3>
     </div>
   );
 };
