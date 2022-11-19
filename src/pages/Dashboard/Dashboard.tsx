@@ -12,6 +12,7 @@ import { FaRegPaperPlane } from 'react-icons/fa';
 import styles from './Dashboard.module.scss';
 import Button from '../../components/Button';
 import UserReview from '../../components/UserReview';
+import Table from '../../components/Table';
 
 const cx = classNames.bind(styles);
 const settings = {
@@ -28,6 +29,7 @@ const renderTippy = (attrs: any) => (
     </div>
   </div>
 );
+const test = [{ text: 'test' }, { text: 'test' }, { text: 'test' }];
 const Dashboard = () => {
   return (
     <div className={cx('container')}>
@@ -152,7 +154,24 @@ const Dashboard = () => {
                 <BsThreeDots className={cx('icon-more')} />
               </p>
             </span>
-            <div className={cx('table-product')}></div>
+            <div className={cx('table-product')}>
+              <p className={cx('title-table')}>Products added today. Click here for more details</p>
+              <div className={cx('table')}>
+                <Table columns={['Photo', 'Name', 'Stock', 'Price']}>
+                  {test.map((test) => (
+                    <div className={cx('test')}>
+                      <img
+                        src="http://localhost:1337/public/avatars/202211131030159421842f73874a0695ed2a78c5b74dea.png"
+                        alt=""
+                      />
+                      <div>Test</div>
+                      <div>Test</div>
+                      <div>Test</div>
+                    </div>
+                  ))}
+                </Table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
