@@ -38,34 +38,23 @@ const Chat = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [receiver, setReceiver] = useState<IUser | undefined>(undefined);
   const [fileImages, setFileImages] = useState<File[]>([]);
+  const [currentPageYOffset, setCurrentPageYOffset] = useState({ page: 2, limit: 20, height: 0 });
   const { socket } = useSockets();
   const messageInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   console.log(socket.id);
   useEffect(() => {
-    window.addEventListener('paste', (e: any) => {
-      if (e.clipboardData.files[0] as File) {
-        setFileImages((prev) => {
-          const isExist = prev.find(
-            (fileImage) => fileImage.size === (e.clipboardData.files[0] as File).size,
-          );
-          if (isExist) {
-            return prev;
-          }
-          return [...prev, e.clipboardData.files[0] as File];
-        });
-      }
-    });
     socket.on(config.socketEvents.SERVER.GET_MESSAGE, ({ message }: { message: IMessage }) => {
       setMessages((prev) => {
         const lastPrevMessage = prev[prev.length - 1];
         if (
           lastPrevMessage &&
-          user?._id !== message.sender._id &&
+          // user?._id !== message.sender._id &&
           lastPrevMessage.conversation === message.conversation &&
           lastPrevMessage._id !== message._id
         ) {
-          return [...prev, message];
+          const prevMessages = prev.filter((message) => message._id !== '923457923845729454279525');
+          return [...prevMessages, message];
         }
         return prev;
       });
@@ -110,25 +99,21 @@ const Chat = () => {
       try {
         const params = {
           page: 1,
-          limit: 0,
-          sort: 'createdAt',
+          limit: currentPageYOffset.limit,
         };
         setLoadingGetMessage(true);
-        const res: IMessage[] = await messageApi.getMessagesFromConversation(
-          currentChat?._id || '',
-          params,
-        );
+        const res = await messageApi.getMessagesFromConversation(currentChat?._id || '', params);
         // console.log(res);
-        if (res) {
-          setMessages(res);
+        if (res.data.length > 0) {
+          setMessages(res.data);
           setLoadingGetMessage(false);
         }
       } catch (error) {
         console.log(error);
       }
     };
+    setCurrentPageYOffset({ page: 2, limit: 20, height: 0 });
     currentChat && getMessages();
-
     socket.on(
       config.socketEvents.SERVER.LOADING,
       (data: {
@@ -166,14 +151,14 @@ const Chat = () => {
             }
             return [...prev];
           });
-          const timeout = setTimeout(() => {
-            setMessages((prev) => {
-              const newMessage = prev.filter(
-                (message) => message._id !== '923457923845729454279525',
-              );
-              return newMessage;
-            });
-          }, 3000);
+          // setTimeout(() => {
+          //   setMessages((prev) => {
+          //     const newMessage = prev.filter(
+          //       (message) => message._id !== '923457923845729454279525',
+          //     );
+          //     return newMessage;
+          //   });
+          // }, 1500);
         }
       },
     );
@@ -181,7 +166,7 @@ const Chat = () => {
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    if (currentChat && receiver?._id === messages[messages.length - 1].sender._id) {
+    if (currentChat && receiver?._id === messages[messages.length - 1]?.sender._id) {
       handleUpdateSeenMessage(currentChat?._id, receiver?._id);
     }
   }, [messages]);
@@ -229,7 +214,7 @@ const Chat = () => {
         if (newMessage) createMessage.text = newMessage;
         const message: IMessage = await messageApi.create(createMessage);
         if (message) {
-          setMessages((prev) => [...prev, message]);
+          // setMessages((prev) => [...prev, message]);
           socket.emit(config.socketEvents.CLIENT.SEND_MESSAGE, {
             message,
             receiverId: receiver?._id,
@@ -241,6 +226,40 @@ const Chat = () => {
       } catch (error) {}
     } else {
       toast.info('Vui lòng nhập thông tin');
+    }
+  };
+  const handleScroll = async (e: any) => {
+    setCurrentPageYOffset({ ...currentPageYOffset, height: e.target.scrollTop });
+    if (e.target.scrollTop === 0 && e.target.scrollTop < currentPageYOffset.height) {
+      try {
+        const params = {
+          page: currentPageYOffset.page,
+          limit: currentPageYOffset.limit,
+          skip: messages.length,
+        };
+        console.log(params);
+        const res = await messageApi.getMessagesFromConversation(currentChat?._id || '', params);
+        console.log(res);
+
+        if (res.data.length > 0) {
+          const isExist = messages.find((message) => message._id === res.data[0]._id);
+          if (res.resultPerPage === currentPageYOffset.page && !isExist) {
+            setCurrentPageYOffset({ ...currentPageYOffset, page: currentPageYOffset.page + 1 });
+            setMessages((prev) => [...res.data, ...prev]);
+          }
+          // setLoadingGetMessage(false);
+        }
+
+        // if (res.data.length > 0) {
+        //   const isExist = messages.find((message) => message._id === res.data[0]._id);
+        //   if (res.resultPerPage === currentPageYOffset.page && !isExist) {
+        //     setCurrentPageYOffset({ ...currentPageYOffset, page: currentPageYOffset.page + 1 });
+        //     setMessages((prev) => [...res.data, ...prev]);
+        //   }
+        // }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   const handleKeyDown = () => {
@@ -256,8 +275,19 @@ const Chat = () => {
       return prev.filter((fileImage) => fileImage !== file);
     });
   };
-  // console.log('current: ', currentChat);
-  // console.log('message: ', messages);
+  const handlePasteClipboard = (e: any) => {
+    if (e.clipboardData.files[0] as File) {
+      setFileImages((prev) => {
+        const isExist = prev.find(
+          (fileImage) => fileImage.size === (e.clipboardData.files[0] as File).size,
+        );
+        if (isExist) {
+          return prev;
+        }
+        return [...prev, e.clipboardData.files[0] as File];
+      });
+    }
+  };
   console.log('files: ', fileImages);
 
   console.log('====================================');
@@ -340,7 +370,7 @@ const Chat = () => {
                 <FaInfoCircle className={cx('option-icon')} />
               </div>
             </div>
-            <div className={cx('chat-box__body')}>
+            <div className={cx('chat-box__body')} onScroll={handleScroll}>
               {messages.map((message) => (
                 <div ref={scrollRef} key={message._id}>
                   <Message message={message} own={message?.sender?._id === user?._id} />
@@ -371,6 +401,7 @@ const Chat = () => {
                     setNewMessage(e.target.value)
                   }
                   onKeyDown={handleKeyDown}
+                  onPaste={handlePasteClipboard}
                 />
 
                 {fileImages.length > 0 && (

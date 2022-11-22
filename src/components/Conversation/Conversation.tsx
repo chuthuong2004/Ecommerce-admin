@@ -79,7 +79,7 @@ const Conversation: React.FC<Props> = ({ conversation, active, latestMessageChan
           </span>
         )}
 
-        <span className={cx('dot-online', 'active')}></span>
+        <span className={cx('dot-online', !receiver?.loggedOut && 'active')}></span>
       </div>
 
       <div className={cx('conversation-right')}>

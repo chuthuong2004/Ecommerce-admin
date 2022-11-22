@@ -36,6 +36,8 @@ export interface IUser {
   __v?: number;
   createdAt?: string;
   updatedAt?: string;
+  loggedOut?: boolean;
+  loggedOutAt?: string;
 }
 
 export interface IAddress {

@@ -13,7 +13,10 @@ const messageApi = {
     const url = 'messages';
     return axiosClient.post(url, body);
   },
-  getMessagesFromConversation: (conversationId: string, params: any): Promise<IMessage[]> => {
+  getMessagesFromConversation: (
+    conversationId: string,
+    params: any,
+  ): Promise<{ countDocument: number; resultPerPage: number; data: IMessage[] }> => {
     const url = `messages/${conversationId}`;
     return axiosClient.get(url, { params });
   },

@@ -6,6 +6,8 @@ import classNames from 'classnames/bind';
 import vi from 'timeago.js/lib/lang/vi';
 import { IMessage } from '../../models/message.model';
 import moment from 'moment';
+import { useState } from 'react';
+import PopUp from '../PopUp';
 
 require('moment/locale/vi');
 const cx = classNames.bind(styles);
@@ -16,8 +18,19 @@ type Props = {
 // register it.
 // register('vi', vi);
 const Message: React.FC<Props> = ({ message, own }) => {
+  const [popupImage, setPopupImage] = useState({ isOpen: false, src: '' });
   return (
     <div className={cx('message', own && 'own')}>
+      <PopUp
+        isOpen={popupImage.isOpen}
+        trigger={<></>}
+        handleClose={() => setPopupImage((prev) => ({ ...prev, isOpen: false }))}
+        position="center"
+      >
+        <div className={cx('popup-image')}>
+          <img src={popupImage.src} alt="" />
+        </div>
+      </PopUp>
       <div className={cx('message-top')}>
         {!own && (
           <div className={cx('message-img-container')}>
@@ -41,11 +54,15 @@ const Message: React.FC<Props> = ({ message, own }) => {
           <div className={cx('container-image')}>
             {message?.images &&
               message.images.length > 0 &&
-              message.images.map((image) => (
+              message.images.map((image, i) => (
                 <img
+                  key={i}
                   className={cx('message-img-text')}
                   src={process.env.REACT_APP_API_URL + image}
                   alt=""
+                  onClick={() =>
+                    setPopupImage({ isOpen: true, src: process.env.REACT_APP_API_URL + image })
+                  }
                 />
               ))}
           </div>
