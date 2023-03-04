@@ -1,22 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from './HeaderContent.module.scss';
-// import ScrollToTop from '../components/ScrollToTop';
-import { useLocation, useParams } from 'react-router-dom';
-import React, { useEffect, ReactNode } from 'react';
-import SearchInput from '../../../components/SearchInput';
-import Button from '../../../components/Button';
-import {
-  BellIcon,
-  CameraIcon,
-  MessageIcon,
-  PlusIcon,
-  PlusStrongIcon,
-} from '../../../components/Icons';
+import { CameraIcon, MessageIcon, PlusStrongIcon } from '../../../components/Icons';
+import { Button, SearchInput } from '../../../components';
 const cx = classNames.bind(styles);
 const HeaderContent = () => {
   return (
     <div className={cx('container')}>
-      <h3 className={cx('title')}>Tổng quan</h3>
+      <h3 className={cx('title')}>Tin nhắn</h3>
       <div className={cx('search')}>
         <SearchInput loading={false} value="" onChange={() => {}} handleClearInput={() => {}} />
       </div>

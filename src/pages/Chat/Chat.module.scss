@@ -1,5 +1,8 @@
 .chat {
   display: flex;
+  background-color: blue;
+  height: calc(100vh - var(--height-header) - 4rem);
+  overflow: hidden;
   &-sidebar {
     flex: 2;
     &__header {
