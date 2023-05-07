@@ -1,0 +1,42 @@
+.order-filter {
+    background-color: #fff;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    &-title {
+        flex-basis: 10%;
+        font-size: 14px;
+        line-height: 39px;
+    }
+    &-item {
+        display: flex;
+        flex-basis: 45%;
+        // justify-content: space-between;
+        #type {
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 12px;
+        }
+        #number {
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 12px;
+        }
+        &-search {
+            padding: 10px 20px;
+            border: 1px solid #000;
+            border-radius: 5px;
+        }
+    }
+    &-button {
+        flex-basis: 45%;
+        button {
+            float: right;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #ff6e40;
+            color: #fff;
+            font-size: 14px;
+        }
+    }
+}
